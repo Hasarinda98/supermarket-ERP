@@ -1,104 +1,267 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Purchase Order</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order - Supermarket ERP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            font-size: 22px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-save {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        @media(max-width: 650px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<h2>Purchase Order</h2>
+<div class="navbar">
+    <h2>Supermarket ERP</h2>
 
-<form
-        th:action="@{/purchase-orders/save}"
-        th:object="${purchaseOrder}"
-        method="post">
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/purchase-orders}">Purchase Orders</a>
+        <a th:href="@{/grn}">GRN</a>
+    </div>
+</div>
 
-    <input
-            type="hidden"
-            th:field="*{id}">
+<div class="container">
 
-    <label>PO Number</label>
+    <div class="card">
 
-    <input
-            type="text"
-            th:field="*{poNumber}"
-            required>
+        <h1>Purchase Order</h1>
+        <p class="subtitle">Enter purchase order information below.</p>
 
-    <br><br>
+        <form th:action="@{/purchase-orders/save}"
+              th:object="${purchaseOrder}"
+              method="post">
 
-    <label>Order Date</label>
+            <input type="hidden" th:field="*{id}">
 
-    <input
-            type="date"
-            th:field="*{orderDate}"
-            required>
+            <div class="form-row">
 
-    <br><br>
+                <div class="form-group">
+                    <label>
+                        PO Number <span class="required">*</span>
+                    </label>
 
-    <label>Supplier</label>
+                    <input type="text"
+                           th:field="*{poNumber}"
+                           placeholder="Example: PO001"
+                           required>
+                </div>
 
-    <input
-            type="text"
-            th:field="*{supplierName}"
-            required>
+                <div class="form-group">
+                    <label>
+                        Order Date <span class="required">*</span>
+                    </label>
 
-    <br><br>
+                    <input type="date"
+                           th:field="*{orderDate}"
+                           required>
+                </div>
 
-    <label>Product</label>
+            </div>
 
-    <input
-            type="text"
-            th:field="*{productName}"
-            required>
+            <div class="form-row">
 
-    <br><br>
+                <div class="form-group">
+                    <label>
+                        Supplier Name <span class="required">*</span>
+                    </label>
 
-    <label>Quantity</label>
+                    <input type="text"
+                           th:field="*{supplierName}"
+                           placeholder="Enter supplier name"
+                           required>
+                </div>
 
-    <input
-            type="number"
-            th:field="*{quantity}"
-            required>
+                <div class="form-group">
+                    <label>
+                        Product Name <span class="required">*</span>
+                    </label>
 
-    <br><br>
+                    <input type="text"
+                           th:field="*{productName}"
+                           placeholder="Enter product name"
+                           required>
+                </div>
 
-    <label>Unit Price</label>
+            </div>
 
-    <input
-            type="number"
-            step="0.01"
-            th:field="*{unitPrice}"
-            required>
+            <div class="form-row">
 
-    <br><br>
+                <div class="form-group">
+                    <label>
+                        Quantity <span class="required">*</span>
+                    </label>
 
-    <label>Status</label>
+                    <input type="number"
+                           th:field="*{quantity}"
+                           min="1"
+                           required>
+                </div>
 
-    <select th:field="*{status}">
+                <div class="form-group">
+                    <label>
+                        Unit Price <span class="required">*</span>
+                    </label>
 
-        <option value="PENDING">
-            Pending
-        </option>
+                    <input type="number"
+                           th:field="*{unitPrice}"
+                           min="0"
+                           step="0.01"
+                           required>
+                </div>
 
-        <option value="APPROVED">
-            Approved
-        </option>
+            </div>
 
-        <option value="RECEIVED">
-            Received
-        </option>
+            <div class="form-group">
+                <label>Status</label>
 
-    </select>
+                <select th:field="*{status}">
+                    <option value="PENDING">Pending</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="RECEIVED">Received</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+            </div>
 
-    <br><br>
+            <div class="buttons">
 
-    <button type="submit">
-        Save Purchase Order
-    </button>
+                <button type="submit"
+                        class="btn btn-save">
+                    Save Purchase Order
+                </button>
 
-</form>
+                <a th:href="@{/purchase-orders}"
+                   class="btn btn-cancel">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 </html>
