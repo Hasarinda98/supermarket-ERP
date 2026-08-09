@@ -1,11 +1,79 @@
-# Supermarket ERP - Assignment 02
+## Supermarket ERP System
 
-Java 25 + Spring Boot 4.0.7 + H2 in-memory default configuration.
+A Spring Boot based Supermarket Management System developed for Enterprise Application Development.
 
-## Setup
-1. Run the application with the default in-memory database:
-   `mvn clean spring-boot:run`
-2. Open `http://localhost:8082`
-3. If you want to use a MySQL instance instead, update `src/main/resources/application.properties` to the MySQL JDBC settings and run the schema setup from `database_setup.sql`.
+### Features
 
-Features: Product CRUD, barcode lookup, Supplier CRUD, validation, Product-Supplier integration, local in-memory persistence by default.
+- Product Management
+  - Add products
+  - Update products
+  - Delete products
+  - Search products
+  - Barcode support
+
+- Supplier Management
+  - Add suppliers
+  - Update suppliers
+  - Delete suppliers
+  - Search suppliers
+
+- Purchase Order Management
+  - Create purchase orders
+  - View purchase orders
+  - Edit purchase orders
+  - Delete purchase orders
+  - Automatic total amount calculation
+  - Purchase order status management
+
+- Goods Received Note (GRN) Management
+  - Create GRNs
+  - View GRNs
+  - Edit GRNs
+  - Delete GRNs
+  - Automatic total amount calculation
+
+### MVC Architecture
+
+The Purchase Order and Goods Received Note modules are implemented using the MVC architecture.
+
+- **Model** - PurchaseOrder and GRN entities
+- **View** - Thymeleaf HTML templates
+- **Controller** - Handles HTTP requests and navigation
+- **Service** - Contains business logic
+- **Repository** - Handles database operations using Spring Data JPA
+
+### Technologies Used
+
+- Java
+- Spring Boot
+- Spring MVC
+- Spring Data JPA
+- Thymeleaf
+- H2 Database
+- HTML
+- CSS
+- JavaScript
+- Maven
+
+### Main Modules
+
+1. Product Management
+2. Supplier Management
+3. Purchase Order Management
+4. Goods Received Note (GRN) Management
+
+### Application Navigation
+
+The main dashboard provides access to:
+
+- Products
+- Suppliers
+- Purchase Orders
+- GRN
+
+### Running the Application
+
+Run:
+
+```bash
+mvn spring-boot:run
