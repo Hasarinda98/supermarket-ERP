@@ -5,6 +5,7 @@ A Spring Boot based Supermarket Management System developed for Enterprise Appli
 ### Features
 
 - Product Management
+
   - Add products
   - Update products
   - Delete products
@@ -12,12 +13,14 @@ A Spring Boot based Supermarket Management System developed for Enterprise Appli
   - Barcode support
 
 - Supplier Management
+
   - Add suppliers
   - Update suppliers
   - Delete suppliers
   - Search suppliers
 
 - Purchase Order Management
+
   - Create purchase orders
   - View purchase orders
   - Edit purchase orders
@@ -26,6 +29,7 @@ A Spring Boot based Supermarket Management System developed for Enterprise Appli
   - Purchase order status management
 
 - Goods Received Note (GRN) Management
+
   - Create GRNs
   - View GRNs
   - Edit GRNs
@@ -77,3 +81,18 @@ Run:
 
 ```bash
 mvn spring-boot:run
+```
+
+The application runs on port **8082**.
+
+Open the application in your browser:
+
+```text
+http://localhost:8082
+```
+
+### Module URLs
+
+- Home Dashboard: `http://localhost:8082/`
+- Purchase Orders: `http://localhost:8082/purchase-orders`
+- Goods Received Notes (GRN): `http://localhost:8082/grn`
