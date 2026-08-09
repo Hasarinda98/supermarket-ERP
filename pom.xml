@@ -5,7 +5,7 @@
   <groupId>com.bci</groupId><artifactId>supermarket-erp</artifactId><version>0.0.1-SNAPSHOT</version>
   <name>supermarket-erp</name><description>Product and Supplier Management ERP</description>
   <properties>
-    <java.version>25</java.version>
+    <java.version>21</java.version>
     <lombok.version>1.18.40</lombok.version>
   </properties>
   <dependencies>
