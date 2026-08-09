@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Purchase Orders</title>
+</head>
+
+<body>
+
+<h2>Purchase Orders</h2>
+
+<a th:href="@{/purchase-orders/new}">
+    Add Purchase Order
+</a>
+
+<br><br>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>PO Number</th>
+        <th>Date</th>
+        <th>Supplier</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="po : ${purchaseOrders}">
+
+        <td th:text="${po.id}"></td>
+
+        <td th:text="${po.poNumber}"></td>
+
+        <td th:text="${po.orderDate}"></td>
+
+        <td th:text="${po.supplierName}"></td>
+
+        <td th:text="${po.productName}"></td>
+
+        <td th:text="${po.quantity}"></td>
+
+        <td th:text="${po.totalAmount}"></td>
+
+        <td th:text="${po.status}"></td>
+
+        <td>
+
+            <a th:href="@{/purchase-orders/edit/{id}
+            (id=${po.id})}">
+                Edit
+            </a>
+
+            <a th:href="@{/purchase-orders/delete/{id}
+            (id=${po.id})}">
+                Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+</table>
+
+</body>
+</html>

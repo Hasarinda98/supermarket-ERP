@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create GRN - Supermarket ERP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #3498db;
+        }
+
+        .buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-save {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #219150;
+        }
+
+        .btn-cancel {
+            background-color: #7f8c8d;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #687374;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 650px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+
+    <h2>Supermarket ERP</h2>
+
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/purchase-orders}">Purchase Orders</a>
+        <a th:href="@{/grn}">GRN</a>
+    </div>
+
+</div>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Goods Received Note</h1>
+
+        <p class="subtitle">
+            Enter the received goods information below.
+        </p>
+
+
+        <!-- GRN Form -->
+        <form th:action="@{/grn/save}"
+              th:object="${grn}"
+              method="post">
+
+            <!-- Used when editing an existing GRN -->
+            <input type="hidden" th:field="*{id}">
+
+
+            <div class="form-row">
+
+                <!-- GRN Number -->
+                <div class="form-group">
+
+                    <label>
+                        GRN Number
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                            type="text"
+                            th:field="*{grnNumber}"
+                            placeholder="Example: GRN001"
+                            required>
+
+                </div>
+
+
+                <!-- PO Number -->
+                <div class="form-group">
+
+                    <label>
+                        PO Number
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                            type="text"
+                            th:field="*{poNumber}"
+                            placeholder="Example: PO001"
+                            required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <!-- Received Date -->
+                <div class="form-group">
+
+                    <label>
+                        Received Date
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                            type="date"
+                            th:field="*{receivedDate}"
+                            required>
+
+                </div>
+
+
+                <!-- Supplier -->
+                <div class="form-group">
+
+                    <label>
+                        Supplier Name
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                            type="text"
+                            th:field="*{supplierName}"
+                            placeholder="Enter supplier name"
+                            required>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product -->
+            <div class="form-group">
+
+                <label>
+                    Product Name
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                        type="text"
+                        th:field="*{productName}"
+                        placeholder="Enter product name"
+                        required>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <!-- Ordered Quantity -->
+                <div class="form-group">
+
+                    <label>
+                        Ordered Quantity
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                            type="number"
+                            th:field="*{orderedQuantity}"
+                            min="1"
+                            placeholder="0"
+                            required>
+
+                </div>
+
+
+                <!-- Received Quantity -->
+                <div class="form-group">
+
+                    <label>
+                        Received Quantity
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                            type="number"
+                            th:field="*{receivedQuantity}"
+                            min="1"
+                            placeholder="0"
+                            required>
+
+                </div>
+
+            </div>
+
+
+            <!-- Unit Price -->
+            <div class="form-group">
+
+                <label>
+                    Unit Price
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                        type="number"
+                        th:field="*{unitPrice}"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        required>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="buttons">
+
+                <button
+                        type="submit"
+                        class="btn btn-save">
+                    Save GRN
+                </button>
+
+                <a
+                        th:href="@{/grn}"
+                        class="btn btn-cancel">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
