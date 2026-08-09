@@ -1,7 +1,499 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Supermarket ERP</title><link rel="stylesheet" href="style.css"></head><body>
-<header><h1>Supermarket ERP System</h1><p>Product and Supplier Management</p></header>
-<nav><button class="tab active" data-page="products">Products</button><button class="tab" data-page="suppliers">Suppliers</button></nav>
-<main><div id="message"></div>
-<section id="products" class="page active"><h2>Product Management</h2><div class="scan"><label>Scan barcode <input id="scan-input" placeholder="Scan and press Enter"></label><span id="scan-status"></span></div><div class="grid"><form id="product-form" class="card"><h3 id="product-title">Add Product</h3><input type="hidden" id="product-id"><label>Barcode<input id="barcode" required></label><label>Name<input id="product-name" required></label><label>Description<textarea id="description"></textarea></label><label>Price<input id="price" type="number" min="0" step="0.01" required></label><label>Quantity<input id="quantity" type="number" min="0" required></label><label>Supplier<select id="product-supplier"><option value="">No supplier</option></select></label><div><button class="primary">Save Product</button><button type="button" id="product-cancel" hidden>Cancel</button></div></form><div class="card"><h3>Product List</h3><input id="product-search" placeholder="Search products"><div class="table"><table><thead><tr><th>Barcode</th><th>Name</th><th>Price</th><th>Qty</th><th>Supplier</th><th>Actions</th></tr></thead><tbody id="product-body"></tbody></table></div></div></div></section>
-<section id="suppliers" class="page"><h2>Supplier Management</h2><div class="grid"><form id="supplier-form" class="card"><h3 id="supplier-title">Add Supplier</h3><input type="hidden" id="supplier-id"><label>Supplier Name<input id="supplier-name" required maxlength="100"></label><label>Company<input id="company" required maxlength="120"></label><label>Email<input id="email" type="email" required></label><label>Phone<input id="phone" required></label><label>Address<textarea id="address" required maxlength="255"></textarea></label><div><button class="primary">Save Supplier</button><button type="button" id="supplier-cancel" hidden>Cancel</button></div></form><div class="card"><h3>Supplier List</h3><input id="supplier-search" placeholder="Search suppliers"><div class="table"><table><thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th>Address</th><th>Actions</th></tr></thead><tbody id="supplier-body"></tbody></table></div></div></div></section>
-</main><footer>Enterprise Application Development - Assignment 02</footer><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Supermarket ERP</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <h1>Supermarket ERP System</h1>
+
+    <p>
+        Product, Supplier, Purchase Order and GRN Management
+    </p>
+
+</header>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav>
+
+    <!-- Existing Product Tab -->
+    <button
+            class="tab active"
+            data-page="products"
+            type="button">
+        Products
+    </button>
+
+    <!-- Existing Supplier Tab -->
+    <button
+            class="tab"
+            data-page="suppliers"
+            type="button">
+        Suppliers
+    </button>
+
+    <!-- Purchase Order -->
+    <!-- IMPORTANT: Do NOT give this button class="tab" -->
+    <button
+            class="module-btn"
+            type="button"
+            onclick="window.location.href='/purchase-orders'">
+        Purchase Order
+    </button>
+
+    <!-- GRN -->
+    <!-- IMPORTANT: Do NOT give this button class="tab" -->
+    <button
+            class="module-btn"
+            type="button"
+            onclick="window.location.href='/grn'">
+        GRN
+    </button>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+    <!-- Message Area -->
+    <div id="message"></div>
+
+
+    <!-- ==================================================
+                         PRODUCT PAGE
+    =================================================== -->
+
+    <section
+            id="products"
+            class="page active">
+
+        <h2>
+            Product Management
+        </h2>
+
+
+        <!-- Barcode Scanner -->
+
+        <div class="scan">
+
+            <label>
+
+                Scan barcode
+
+                <input
+                        id="scan-input"
+                        placeholder="Scan and press Enter">
+
+            </label>
+
+            <span id="scan-status"></span>
+
+        </div>
+
+
+        <div class="grid">
+
+
+            <!-- ================= PRODUCT FORM ================= -->
+
+            <form
+                    id="product-form"
+                    class="card">
+
+                <h3 id="product-title">
+                    Add Product
+                </h3>
+
+
+                <input
+                        type="hidden"
+                        id="product-id">
+
+
+                <!-- Barcode -->
+
+                <label>
+
+                    Barcode
+
+                    <input
+                            id="barcode"
+                            required>
+
+                </label>
+
+
+                <!-- Product Name -->
+
+                <label>
+
+                    Name
+
+                    <input
+                            id="product-name"
+                            required>
+
+                </label>
+
+
+                <!-- Description -->
+
+                <label>
+
+                    Description
+
+                    <textarea
+                            id="description"></textarea>
+
+                </label>
+
+
+                <!-- Price -->
+
+                <label>
+
+                    Price
+
+                    <input
+                            id="price"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            required>
+
+                </label>
+
+
+                <!-- Quantity -->
+
+                <label>
+
+                    Quantity
+
+                    <input
+                            id="quantity"
+                            type="number"
+                            min="0"
+                            required>
+
+                </label>
+
+
+                <!-- Supplier -->
+
+                <label>
+
+                    Supplier
+
+                    <select id="product-supplier">
+
+                        <option value="">
+                            No supplier
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <!-- Product Buttons -->
+
+                <div>
+
+                    <button
+                            class="primary"
+                            type="submit">
+                        Save Product
+                    </button>
+
+
+                    <button
+                            type="button"
+                            id="product-cancel"
+                            hidden>
+
+                        Cancel
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+
+            <!-- ================= PRODUCT LIST ================= -->
+
+            <div class="card">
+
+                <h3>
+                    Product List
+                </h3>
+
+
+                <!-- Product Search -->
+
+                <input
+                        id="product-search"
+                        placeholder="Search products">
+
+
+                <div class="table">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Barcode</th>
+
+                            <th>Name</th>
+
+                            <th>Price</th>
+
+                            <th>Qty</th>
+
+                            <th>Supplier</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody id="product-body">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+                         SUPPLIER PAGE
+    =================================================== -->
+
+    <section
+            id="suppliers"
+            class="page">
+
+        <h2>
+            Supplier Management
+        </h2>
+
+
+        <div class="grid">
+
+
+            <!-- ================= SUPPLIER FORM ================= -->
+
+            <form
+                    id="supplier-form"
+                    class="card">
+
+                <h3 id="supplier-title">
+                    Add Supplier
+                </h3>
+
+
+                <input
+                        type="hidden"
+                        id="supplier-id">
+
+
+                <!-- Supplier Name -->
+
+                <label>
+
+                    Supplier Name
+
+                    <input
+                            id="supplier-name"
+                            required
+                            maxlength="100">
+
+                </label>
+
+
+                <!-- Company -->
+
+                <label>
+
+                    Company
+
+                    <input
+                            id="company"
+                            required
+                            maxlength="120">
+
+                </label>
+
+
+                <!-- Email -->
+
+                <label>
+
+                    Email
+
+                    <input
+                            id="email"
+                            type="email"
+                            required>
+
+                </label>
+
+
+                <!-- Phone -->
+
+                <label>
+
+                    Phone
+
+                    <input
+                            id="phone"
+                            required>
+
+                </label>
+
+
+                <!-- Address -->
+
+                <label>
+
+                    Address
+
+                    <textarea
+                            id="address"
+                            required
+                            maxlength="255"></textarea>
+
+                </label>
+
+
+                <!-- Supplier Buttons -->
+
+                <div>
+
+                    <button
+                            class="primary"
+                            type="submit">
+                        Save Supplier
+                    </button>
+
+
+                    <button
+                            type="button"
+                            id="supplier-cancel"
+                            hidden>
+
+                        Cancel
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+
+            <!-- ================= SUPPLIER LIST ================= -->
+
+            <div class="card">
+
+                <h3>
+                    Supplier List
+                </h3>
+
+
+                <!-- Supplier Search -->
+
+                <input
+                        id="supplier-search"
+                        placeholder="Search suppliers">
+
+
+                <div class="table">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+
+                            <th>Company</th>
+
+                            <th>Email</th>
+
+                            <th>Phone</th>
+
+                            <th>Address</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody id="supplier-body">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    Enterprise Application Development - Assignment 02
+
+</footer>
+
+
+<!-- Existing JavaScript -->
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
