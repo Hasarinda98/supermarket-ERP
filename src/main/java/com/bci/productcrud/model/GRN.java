@@ -1,114 +1,47 @@
 package com.bci.productcrud.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "grn")
+@Table(name = "goods_receipts")
+@Getter
+@Setter
+@NoArgsConstructor
 public class GRN {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "grn_id")
     private Long id;
 
+    @Column(name = "grn_number", nullable = false, unique = true)
     private String grnNumber;
 
-    private String poNumber;
+    @ManyToOne
+    @JoinColumn(name = "po_id", nullable = false)
+    private PurchaseOrder purchaseOrder;
 
+    @ManyToOne
+    @JoinColumn(name = "received_by")
+    private User receivedBy;
+
+    @Column(name = "received_date", nullable = false)
     private LocalDate receivedDate;
 
-    private String supplierName;
+    @Column(nullable = false, length = 30)
+    private String status = "RECEIVED";
 
-    private String productName;
-
-    private Integer orderedQuantity;
-
-    private Integer receivedQuantity;
-
-    private Double unitPrice;
-
-    private Double totalAmount;
-
-    public GRN() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGrnNumber() {
-        return grnNumber;
-    }
-
-    public void setGrnNumber(String grnNumber) {
-        this.grnNumber = grnNumber;
-    }
-
-    public String getPoNumber() {
-        return poNumber;
-    }
-
-    public void setPoNumber(String poNumber) {
-        this.poNumber = poNumber;
-    }
-
-    public LocalDate getReceivedDate() {
-        return receivedDate;
-    }
-
-    public void setReceivedDate(LocalDate receivedDate) {
-        this.receivedDate = receivedDate;
-    }
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Integer getOrderedQuantity() {
-        return orderedQuantity;
-    }
-
-    public void setOrderedQuantity(Integer orderedQuantity) {
-        this.orderedQuantity = orderedQuantity;
-    }
-
-    public Integer getReceivedQuantity() {
-        return receivedQuantity;
-    }
-
-    public void setReceivedQuantity(Integer receivedQuantity) {
-        this.receivedQuantity = receivedQuantity;
-    }
-
-    public Double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+    @OneToMany(
+            mappedBy = "grn",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<GRNItem> items = new ArrayList<>();
 }

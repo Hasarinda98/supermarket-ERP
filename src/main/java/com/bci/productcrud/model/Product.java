@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
-
 @Entity
 @Table(name = "products")
 @Getter
@@ -19,45 +17,35 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Product name is required")
+    @Column(name = "product_name", nullable = false)
+    private String name;
+
+    private String category;
+
+    private String brand;
+
+    private String size;
+
+    private String color;
+
+    @NotBlank(message = "Barcode is required")
     @Column(nullable = false, unique = true)
     private String barcode;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String name;
-
-    private String description;
-
-    @NotNull
+    @NotNull(message = "Purchase price is required")
     @PositiveOrZero
-    @Column(nullable = false)
-    private Double price;
+    @Column(name = "purchase_price", nullable = false)
+    private Double purchasePrice;
 
-    @NotNull
+    @NotNull(message = "Selling price is required")
     @PositiveOrZero
+    @Column(name = "selling_price", nullable = false)
+    private Double sellingPrice;
+
     @Column(nullable = false)
-    private Integer quantity;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    private Instant updatedAt;
-
-    @PrePersist
-    void onCreate() {
-        createdAt = Instant.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    void onUpdate() {
-        updatedAt = Instant.now();
-    }
+    private String status = "ACTIVE";
 }
