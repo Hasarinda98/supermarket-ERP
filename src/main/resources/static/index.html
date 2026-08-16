@@ -14,24 +14,17 @@
 
 <body>
 
-<!-- ================= HEADER ================= -->
-
 <header>
-
     <h1>Supermarket ERP System</h1>
 
     <p>
-        Product, Supplier, Purchase Order and GRN Management
+        Product, Supplier, Purchase Order, GRN, Inventory,
+        Sales and Payment Management
     </p>
-
 </header>
-
-
-<!-- ================= NAVIGATION ================= -->
 
 <nav>
 
-    <!-- Existing Product Tab -->
     <button
             class="tab active"
             data-page="products"
@@ -39,7 +32,6 @@
         Products
     </button>
 
-    <!-- Existing Supplier Tab -->
     <button
             class="tab"
             data-page="suppliers"
@@ -47,8 +39,6 @@
         Suppliers
     </button>
 
-    <!-- Purchase Order -->
-    <!-- IMPORTANT: Do NOT give this button class="tab" -->
     <button
             class="module-btn"
             type="button"
@@ -56,8 +46,6 @@
         Purchase Order
     </button>
 
-    <!-- GRN -->
-    <!-- IMPORTANT: Do NOT give this button class="tab" -->
     <button
             class="module-btn"
             type="button"
@@ -65,53 +53,58 @@
         GRN
     </button>
 
+    <button
+            class="module-btn"
+            type="button"
+            onclick="window.location.href='/inventory'">
+        Inventory
+    </button>
+
+    <button
+            class="module-btn"
+            type="button"
+            onclick="window.location.href='/sales'">
+        Sales
+    </button>
+
+    <button
+            class="module-btn"
+            type="button"
+            onclick="window.location.href='/payments'">
+        Payments
+    </button>
+
 </nav>
-
-
-<!-- ================= MAIN ================= -->
 
 <main>
 
-    <!-- Message Area -->
     <div id="message"></div>
 
-
-    <!-- ==================================================
-                         PRODUCT PAGE
-    =================================================== -->
+    <!-- ================= PRODUCT PAGE ================= -->
 
     <section
             id="products"
             class="page active">
 
-        <h2>
-            Product Management
-        </h2>
-
-
-        <!-- Barcode Scanner -->
+        <h2>Product Management</h2>
 
         <div class="scan">
 
             <label>
-
                 Scan barcode
 
                 <input
                         id="scan-input"
                         placeholder="Scan and press Enter">
-
             </label>
 
             <span id="scan-status"></span>
 
         </div>
 
-
         <div class="grid">
 
-
-            <!-- ================= PRODUCT FORM ================= -->
+            <!-- PRODUCT FORM -->
 
             <form
                     id="product-form"
@@ -121,99 +114,93 @@
                     Add Product
                 </h3>
 
-
                 <input
                         type="hidden"
                         id="product-id">
 
-
-                <!-- Barcode -->
-
                 <label>
-
                     Barcode
 
                     <input
                             id="barcode"
                             required>
-
                 </label>
 
-
-                <!-- Product Name -->
-
                 <label>
-
-                    Name
+                    Product Name
 
                     <input
                             id="product-name"
                             required>
-
                 </label>
 
-
-                <!-- Description -->
-
                 <label>
-
-                    Description
-
-                    <textarea
-                            id="description"></textarea>
-
-                </label>
-
-
-                <!-- Price -->
-
-                <label>
-
-                    Price
+                    Category
 
                     <input
-                            id="price"
+                            id="category">
+                </label>
+
+                <label>
+                    Brand
+
+                    <input
+                            id="brand">
+                </label>
+
+                <label>
+                    Size
+
+                    <input
+                            id="size">
+                </label>
+
+                <label>
+                    Color
+
+                    <input
+                            id="color">
+                </label>
+
+                <label>
+                    Purchase Price
+
+                    <input
+                            id="purchase-price"
                             type="number"
                             min="0"
                             step="0.01"
                             required>
-
                 </label>
 
-
-                <!-- Quantity -->
-
                 <label>
-
-                    Quantity
+                    Selling Price
 
                     <input
-                            id="quantity"
+                            id="selling-price"
                             type="number"
                             min="0"
+                            step="0.01"
                             required>
-
                 </label>
 
-
-                <!-- Supplier -->
-
                 <label>
+                    Status
 
-                    Supplier
+                    <select
+                            id="product-status"
+                            required>
 
-                    <select id="product-supplier">
+                        <option value="ACTIVE">
+                            ACTIVE
+                        </option>
 
-                        <option value="">
-                            No supplier
+                        <option value="INACTIVE">
+                            INACTIVE
                         </option>
 
                     </select>
-
                 </label>
-
-
-                <!-- Product Buttons -->
 
                 <div>
 
@@ -223,37 +210,26 @@
                         Save Product
                     </button>
 
-
                     <button
                             type="button"
                             id="product-cancel"
                             hidden>
-
                         Cancel
-
                     </button>
 
                 </div>
 
             </form>
 
-
-
-            <!-- ================= PRODUCT LIST ================= -->
+            <!-- PRODUCT LIST -->
 
             <div class="card">
 
-                <h3>
-                    Product List
-                </h3>
-
-
-                <!-- Product Search -->
+                <h3>Product List</h3>
 
                 <input
                         id="product-search"
                         placeholder="Search products">
-
 
                 <div class="table">
 
@@ -262,26 +238,19 @@
                         <thead>
 
                         <tr>
-
                             <th>Barcode</th>
-
                             <th>Name</th>
-
-                            <th>Price</th>
-
-                            <th>Qty</th>
-
-                            <th>Supplier</th>
-
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Purchase Price</th>
+                            <th>Selling Price</th>
+                            <th>Status</th>
                             <th>Actions</th>
-
                         </tr>
 
                         </thead>
 
-
                         <tbody id="product-body">
-
                         </tbody>
 
                     </table>
@@ -294,25 +263,17 @@
 
     </section>
 
-
-
-    <!-- ==================================================
-                         SUPPLIER PAGE
-    =================================================== -->
+    <!-- ================= SUPPLIER PAGE ================= -->
 
     <section
             id="suppliers"
             class="page">
 
-        <h2>
-            Supplier Management
-        </h2>
-
+        <h2>Supplier Management</h2>
 
         <div class="grid">
 
-
-            <!-- ================= SUPPLIER FORM ================= -->
+            <!-- SUPPLIER FORM -->
 
             <form
                     id="supplier-form"
@@ -322,82 +283,81 @@
                     Add Supplier
                 </h3>
 
-
                 <input
                         type="hidden"
                         id="supplier-id">
 
-
-                <!-- Supplier Name -->
-
                 <label>
-
                     Supplier Name
 
                     <input
                             id="supplier-name"
                             required
                             maxlength="100">
-
                 </label>
 
-
-                <!-- Company -->
-
                 <label>
-
-                    Company
+                    Contact Person
 
                     <input
-                            id="company"
+                            id="contact-person"
                             required
-                            maxlength="120">
-
+                            maxlength="100">
                 </label>
 
-
-                <!-- Email -->
-
                 <label>
-
                     Email
 
                     <input
                             id="email"
                             type="email"
-                            required>
-
+                            required
+                            maxlength="150">
                 </label>
 
-
-                <!-- Phone -->
-
                 <label>
-
                     Phone
 
                     <input
                             id="phone"
-                            required>
-
+                            required
+                            maxlength="20">
                 </label>
 
-
-                <!-- Address -->
-
                 <label>
-
                     Address
 
                     <textarea
                             id="address"
                             required
                             maxlength="255"></textarea>
-
                 </label>
 
+                <label>
+                    Bank Details
 
-                <!-- Supplier Buttons -->
+                    <textarea
+                            id="bank-details"
+                            maxlength="255"></textarea>
+                </label>
+
+                <label>
+                    Status
+
+                    <select
+                            id="supplier-status"
+                            required>
+
+                        <option value="ACTIVE">
+                            ACTIVE
+                        </option>
+
+                        <option value="INACTIVE">
+                            INACTIVE
+                        </option>
+
+                    </select>
+                </label>
 
                 <div>
 
@@ -407,37 +367,26 @@
                         Save Supplier
                     </button>
 
-
                     <button
                             type="button"
                             id="supplier-cancel"
                             hidden>
-
                         Cancel
-
                     </button>
 
                 </div>
 
             </form>
 
-
-
-            <!-- ================= SUPPLIER LIST ================= -->
+            <!-- SUPPLIER LIST -->
 
             <div class="card">
 
-                <h3>
-                    Supplier List
-                </h3>
-
-
-                <!-- Supplier Search -->
+                <h3>Supplier List</h3>
 
                 <input
                         id="supplier-search"
                         placeholder="Search suppliers">
-
 
                 <div class="table">
 
@@ -446,26 +395,18 @@
                         <thead>
 
                         <tr>
-
                             <th>Name</th>
-
-                            <th>Company</th>
-
+                            <th>Contact Person</th>
                             <th>Email</th>
-
                             <th>Phone</th>
-
                             <th>Address</th>
-
+                            <th>Status</th>
                             <th>Actions</th>
-
                         </tr>
 
                         </thead>
 
-
                         <tbody id="supplier-body">
-
                         </tbody>
 
                     </table>
@@ -480,17 +421,9 @@
 
 </main>
 
-
-<!-- ================= FOOTER ================= -->
-
 <footer>
-
     Enterprise Application Development - Assignment 02
-
 </footer>
-
-
-<!-- Existing JavaScript -->
 
 <script src="app.js"></script>
 

@@ -1,104 +1,52 @@
 package com.bci.productcrud.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "purchase_orders")
+@Getter
+@Setter
+@NoArgsConstructor
 public class PurchaseOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "po_id")
     private Long id;
 
-    private String poNumber;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id", nullable = false)
+    private Supplier supplier;
 
-    private LocalDate orderDate;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
 
-    private String supplierName;
+    @ManyToOne
+    @JoinColumn(name = "approved_by")
+    private User approvedBy;
 
-    private String productName;
+    @Column(name = "po_date", nullable = false)
+    private LocalDate poDate;
 
-    private Integer quantity;
+    @Column(nullable = false, length = 30)
+    private String status = "PENDING";
 
-    private Double unitPrice;
+    @Column(name = "total_amount", precision = 12, scale = 2)
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
-    private Double totalAmount;
-
-    private String status;
-
-    public PurchaseOrder() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPoNumber() {
-        return poNumber;
-    }
-
-    public void setPoNumber(String poNumber) {
-        this.poNumber = poNumber;
-    }
-
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    @OneToMany(
+            mappedBy = "purchaseOrder",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<PurchaseOrderItem> items = new ArrayList<>();
 }

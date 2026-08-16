@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - Supermarket ERP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .error {
+            background: #fdecea;
+            color: #c0392b;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 11px 18px;
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .save {
+            background: #27ae60;
+            color: white;
+        }
+
+        .cancel {
+            background: #7f8c8d;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>Supermarket ERP</h2>
+
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/sales}">Sales</a>
+        <a th:href="@{/payments}">Payments</a>
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Create Payment</h1>
+
+        <div class="error"
+             th:if="${errorMessage}"
+             th:text="${errorMessage}">
+        </div>
+
+        <form th:action="@{/payments/save}"
+              th:object="${payment}"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Sales Receipt</label>
+
+                <select id="receiptSelect"
+                        th:field="*{salesReceipt.id}"
+                        required>
+
+                    <option value="">
+                        Select Receipt
+                    </option>
+
+                    <option
+                            th:each="receipt : ${salesReceipts}"
+                            th:value="${receipt.id}"
+                            th:text="${receipt.receiptNumber + ' - Rs. ' + receipt.totalAmount}"
+                            th:attr="
+                                data-amount=${receipt.totalAmount},
+                                data-method=${receipt.paymentMethod}">
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Amount</label>
+
+                <input id="amount"
+                       type="number"
+                       th:field="*{amount}"
+                       step="0.01"
+                       min="0"
+                       required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Payment Method</label>
+
+                <select id="paymentMethod"
+                        th:field="*{paymentMethod}"
+                        required>
+
+                    <option value="">
+                        Select Payment Method
+                    </option>
+
+                    <option value="CASH">
+                        CASH
+                    </option>
+
+                    <option value="CARD">
+                        CARD
+                    </option>
+
+                    <option value="BANK_TRANSFER">
+                        BANK TRANSFER
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Reference Number</label>
+
+                <input type="text"
+                       th:field="*{referenceNumber}"
+                       placeholder="Optional">
+
+            </div>
+
+            <input type="hidden"
+                   th:field="*{status}">
+
+            <div class="buttons">
+
+                <button type="submit"
+                        class="btn save">
+                    Save Payment
+                </button>
+
+                <a th:href="@{/payments}"
+                   class="btn cancel">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+    const receiptSelect =
+        document.getElementById("receiptSelect");
+
+    const amount =
+        document.getElementById("amount");
+
+    const paymentMethod =
+        document.getElementById("paymentMethod");
+
+    receiptSelect.addEventListener(
+        "change",
+        function () {
+
+            const option =
+                receiptSelect.options[
+                    receiptSelect.selectedIndex
+                ];
+
+            if (!option.value) {
+                amount.value = "";
+                paymentMethod.value = "";
+                return;
+            }
+
+            amount.value =
+                option.dataset.amount || "";
+
+            paymentMethod.value =
+                option.dataset.method || "";
+        }
+    );
+
+</script>
+
+</body>
+</html>
