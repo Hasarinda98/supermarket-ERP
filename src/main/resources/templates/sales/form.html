@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Create Sale - Supermarket ERP</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .error {
+            background: #fdecea;
+            color: #c0392b;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .save {
+            background: #27ae60;
+            color: white;
+        }
+
+        .cancel {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        @media(max-width:650px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>Supermarket ERP</h2>
+
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/purchase-orders}">Purchase Orders</a>
+        <a th:href="@{/grn}">GRN</a>
+        <a th:href="@{/inventory}">Inventory</a>
+        <a th:href="@{/sales}">Sales</a>
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Create Sales Receipt</h1>
+
+        <p class="subtitle">
+            Record a product sale and automatically update inventory.
+        </p>
+
+        <div class="error"
+             th:if="${errorMessage}"
+             th:text="${errorMessage}">
+        </div>
+
+        <form th:action="@{/sales/save}"
+              th:object="${salesReceipt}"
+              method="post">
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>Receipt Number</label>
+
+                    <input type="text"
+                           th:field="*{receiptNumber}"
+                           placeholder="Example: SR001"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Cashier</label>
+
+                    <select th:field="*{cashier.id}"
+                            required>
+
+                        <option value="">
+                            Select Cashier
+                        </option>
+
+                        <option
+                                th:each="cashier : ${cashiers}"
+                                th:value="${cashier.id}"
+                                th:text="${cashier.fullName}">
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Product</label>
+
+                <select
+                        th:field="*{items[0].product.id}"
+                        required>
+
+                    <option value="">
+                        Select Product
+                    </option>
+
+                    <option
+                            th:each="product : ${products}"
+                            th:value="${product.id}"
+                            th:text="${product.name + ' - Rs. ' + product.sellingPrice}">
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>Quantity</label>
+
+                    <input type="number"
+                           th:field="*{items[0].quantity}"
+                           min="1"
+                           required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Discount</label>
+
+                    <input type="number"
+                           th:field="*{discount}"
+                           min="0"
+                           step="0.01">
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Payment Method</label>
+
+                <select th:field="*{paymentMethod}"
+                        required>
+
+                    <option value="">
+                        Select Payment Method
+                    </option>
+
+                    <option value="CASH">
+                        CASH
+                    </option>
+
+                    <option value="CARD">
+                        CARD
+                    </option>
+
+                </select>
+
+            </div>
+
+            <input type="hidden"
+                   th:field="*{status}">
+
+            <div class="buttons">
+
+                <button type="submit"
+                        class="btn save">
+                    Save Sale
+                </button>
+
+                <a th:href="@{/sales}"
+                   class="btn cancel">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

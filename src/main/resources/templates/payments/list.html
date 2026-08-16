@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payments - Supermarket ERP</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #333;
+        }
+
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .add {
+            background: #27ae60;
+            color: white;
+        }
+
+        .delete {
+            background: #e74c3c;
+            color: white;
+            padding: 7px 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #34495e;
+            color: white;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .empty {
+            padding: 40px;
+            text-align: center;
+            color: #888;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>Supermarket ERP</h2>
+
+    <div>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/sales}">Sales</a>
+        <a th:href="@{/payments}">Payments</a>
+    </div>
+
+</div>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1>Payments</h1>
+            <p>Manage sales payments.</p>
+        </div>
+
+        <a th:href="@{/payments/new}"
+           class="btn add">
+            + New Payment
+        </a>
+
+    </div>
+
+    <div class="card">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>Payment ID</th>
+                <th>Receipt</th>
+                <th>Date</th>
+                <th>Method</th>
+                <th>Amount</th>
+                <th>Reference</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr th:each="payment : ${payments}">
+
+                <td th:text="${payment.id}">
+                    1
+                </td>
+
+                <td th:text="${payment.salesReceipt != null
+                        ? payment.salesReceipt.receiptNumber
+                        : '-'}">
+                    SR001
+                </td>
+
+                <td th:text="${payment.paymentDate}">
+                    Date
+                </td>
+
+                <td th:text="${payment.paymentMethod}">
+                    CASH
+                </td>
+
+                <td th:text="${payment.amount}">
+                    400.00
+                </td>
+
+                <td th:text="${payment.referenceNumber}">
+                    -
+                </td>
+
+                <td>
+                    <span class="status"
+                          th:text="${payment.status}">
+                        COMPLETED
+                    </span>
+                </td>
+
+                <td>
+
+                    <a th:href="@{/payments/delete/{id}(id=${payment.id})}"
+                       class="btn delete"
+                       onclick="return confirm('Delete this payment?')">
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(payments)}">
+
+                <td colspan="8"
+                    class="empty">
+
+                    No payments found.
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
