@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Create GRN - Supermarket ERP</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GRN - Supermarket ERP</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,58 +21,49 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
+            background: #f4f6f9;
             color: #333;
         }
 
         .navbar {
-            background-color: #2c3e50;
+            background: #2c3e50;
             color: white;
             padding: 18px 30px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .navbar h2 {
-            margin: 0;
-            font-size: 22px;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
             margin-left: 20px;
-            font-size: 14px;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
         }
 
         .container {
-            max-width: 850px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
         .card {
-            background-color: white;
+            background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+            box-shadow:
+                    0 2px 10px rgba(0,0,0,0.08);
         }
 
-        .card h1 {
-            font-size: 26px;
-            margin-bottom: 8px;
+        h1 {
             color: #2c3e50;
+            margin-bottom: 8px;
         }
 
         .subtitle {
             color: #777;
             margin-bottom: 30px;
-            font-size: 14px;
         }
 
         .form-row {
@@ -80,90 +76,110 @@
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 8px;
             font-weight: bold;
-            font-size: 14px;
+            margin-bottom: 8px;
         }
 
-        .form-group input {
+        input,
+        select {
             width: 100%;
             padding: 11px 12px;
+
             border: 1px solid #ccc;
             border-radius: 6px;
+
             font-size: 14px;
-            outline: none;
         }
 
-        .form-group input:focus {
+        input:focus,
+        select:focus {
+            outline: none;
             border-color: #3498db;
         }
 
-        .buttons {
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 11px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-save {
-            background-color: #27ae60;
-            color: white;
-        }
-
-        .btn-save:hover {
-            background-color: #219150;
-        }
-
-        .btn-cancel {
-            background-color: #7f8c8d;
-            color: white;
-        }
-
-        .btn-cancel:hover {
-            background-color: #687374;
+        input[readonly] {
+            background: #f1f3f5;
         }
 
         .required {
             color: red;
         }
 
-        @media (max-width: 650px) {
+        .item-box {
+            background: #f8fafc;
+
+            padding: 20px;
+
+            border: 1px solid #e1e6eb;
+            border-radius: 8px;
+
+            margin-bottom: 25px;
+        }
+
+        .item-box h3 {
+            margin-bottom: 18px;
+            color: #2c3e50;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 11px 20px;
+
+            border: none;
+            border-radius: 6px;
+
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        @media(max-width: 650px) {
+
             .form-row {
                 grid-template-columns: 1fr;
                 gap: 0;
             }
-
-            .navbar {
-                flex-direction: column;
-                gap: 10px;
-                align-items: flex-start;
-            }
         }
+
     </style>
+
 </head>
 
 <body>
 
-<!-- Navigation Bar -->
 <div class="navbar">
 
     <h2>Supermarket ERP</h2>
 
     <div>
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/purchase-orders}">Purchase Orders</a>
-        <a th:href="@{/grn}">GRN</a>
+
+        <a th:href="@{/}">
+            Home
+        </a>
+
+        <a th:href="@{/purchase-orders}">
+            Purchase Orders
+        </a>
+
+        <a th:href="@{/grn}">
+            GRN
+        </a>
+
     </div>
 
 </div>
@@ -176,22 +192,23 @@
         <h1>Goods Received Note</h1>
 
         <p class="subtitle">
-            Enter the received goods information below.
+            Receive goods against an existing purchase order.
         </p>
 
 
-        <!-- GRN Form -->
-        <form th:action="@{/grn/save}"
-              th:object="${grn}"
-              method="post">
+        <form
+                th:action="@{/grn/save}"
+                th:object="${grn}"
+                method="post">
 
-            <!-- Used when editing an existing GRN -->
-            <input type="hidden" th:field="*{id}">
+            <input
+                    type="hidden"
+                    th:field="*{id}">
 
 
             <div class="form-row">
 
-                <!-- GRN Number -->
+
                 <div class="form-group">
 
                     <label>
@@ -202,34 +219,12 @@
                     <input
                             type="text"
                             th:field="*{grnNumber}"
-                            placeholder="Example: GRN001"
+                            placeholder="GRN001"
                             required>
 
                 </div>
 
 
-                <!-- PO Number -->
-                <div class="form-group">
-
-                    <label>
-                        PO Number
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                            type="text"
-                            th:field="*{poNumber}"
-                            placeholder="Example: PO001"
-                            required>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-row">
-
-                <!-- Received Date -->
                 <div class="form-group">
 
                     <label>
@@ -244,115 +239,200 @@
 
                 </div>
 
-
-                <!-- Supplier -->
-                <div class="form-group">
-
-                    <label>
-                        Supplier Name
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                            type="text"
-                            th:field="*{supplierName}"
-                            placeholder="Enter supplier name"
-                            required>
-
-                </div>
-
             </div>
 
 
-            <!-- Product -->
             <div class="form-group">
 
                 <label>
-                    Product Name
+                    Purchase Order
                     <span class="required">*</span>
                 </label>
 
-                <input
-                        type="text"
-                        th:field="*{productName}"
-                        placeholder="Enter product name"
+                <select
+                        id="purchaseOrderSelect"
+                        th:field="*{purchaseOrder.id}"
                         required>
+
+                    <option value="">
+                        -- Select Purchase Order --
+                    </option>
+
+                    <option
+                            th:each="po : ${purchaseOrders}"
+                            th:value="${po.id}"
+                            th:text="${'PO ' + po.id + ' - ' + po.supplier.name}"
+                            th:attr="
+                                data-supplier=${po.supplier.name},
+                                data-product=${!#lists.isEmpty(po.items) ? po.items[0].product.name : ''},
+                                data-quantity=${!#lists.isEmpty(po.items) ? po.items[0].quantity : 0},
+                                data-price=${!#lists.isEmpty(po.items) ? po.items[0].unitPrice : 0}">
+                    </option>
+
+                </select>
 
             </div>
 
 
             <div class="form-row">
 
-                <!-- Ordered Quantity -->
+
                 <div class="form-group">
 
                     <label>
-                        Ordered Quantity
-                        <span class="required">*</span>
+                        Supplier
                     </label>
 
                     <input
-                            type="number"
-                            th:field="*{orderedQuantity}"
-                            min="1"
-                            placeholder="0"
-                            required>
+                            id="supplierName"
+                            type="text"
+                            readonly>
 
                 </div>
 
 
-                <!-- Received Quantity -->
                 <div class="form-group">
 
                     <label>
-                        Received Quantity
-                        <span class="required">*</span>
+                        Product
                     </label>
 
                     <input
-                            type="number"
-                            th:field="*{receivedQuantity}"
-                            min="1"
-                            placeholder="0"
-                            required>
+                            id="productName"
+                            type="text"
+                            readonly>
 
                 </div>
 
             </div>
 
 
-            <!-- Unit Price -->
+            <div class="item-box">
+
+                <h3>Received Item</h3>
+
+                <input
+                        type="hidden"
+                        th:field="*{items[0].id}">
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Ordered Quantity
+                        </label>
+
+                        <input
+                                id="orderedQuantity"
+                                type="number"
+                                th:field="*{items[0].orderedQuantity}"
+                                readonly>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Received Quantity
+                            <span class="required">*</span>
+                        </label>
+
+                        <input
+                                id="receivedQuantity"
+                                type="number"
+                                th:field="*{items[0].receivedQuantity}"
+                                min="1"
+                                required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Unit Price
+                        </label>
+
+                        <input
+                                id="unitPrice"
+                                type="number"
+                                th:field="*{items[0].unitPrice}"
+                                step="0.01"
+                                readonly>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Subtotal
+                        </label>
+
+                        <input
+                                id="subtotal"
+                                type="number"
+                                step="0.01"
+                                readonly>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
             <div class="form-group">
 
                 <label>
-                    Unit Price
-                    <span class="required">*</span>
+                    Status
                 </label>
 
-                <input
-                        type="number"
-                        th:field="*{unitPrice}"
-                        min="0"
-                        step="0.01"
-                        placeholder="0.00"
-                        required>
+                <select
+                        th:field="*{status}">
+
+                    <option value="RECEIVED">
+                        RECEIVED
+                    </option>
+
+                    <option value="PARTIAL">
+                        PARTIAL
+                    </option>
+
+                    <option value="CANCELLED">
+                        CANCELLED
+                    </option>
+
+                </select>
 
             </div>
 
 
-            <!-- Buttons -->
             <div class="buttons">
 
                 <button
                         type="submit"
                         class="btn btn-save">
+
                     Save GRN
+
                 </button>
 
                 <a
                         th:href="@{/grn}"
                         class="btn btn-cancel">
+
                     Cancel
+
                 </a>
 
             </div>
@@ -363,5 +443,94 @@
 
 </div>
 
+
+<script>
+
+    const poSelect =
+        document.getElementById("purchaseOrderSelect");
+
+    const supplierName =
+        document.getElementById("supplierName");
+
+    const productName =
+        document.getElementById("productName");
+
+    const orderedQuantity =
+        document.getElementById("orderedQuantity");
+
+    const receivedQuantity =
+        document.getElementById("receivedQuantity");
+
+    const unitPrice =
+        document.getElementById("unitPrice");
+
+    const subtotal =
+        document.getElementById("subtotal");
+
+
+    function calculateSubtotal() {
+
+        const qty =
+            parseFloat(receivedQuantity.value) || 0;
+
+        const price =
+            parseFloat(unitPrice.value) || 0;
+
+        subtotal.value =
+            (qty * price).toFixed(2);
+    }
+
+
+    function loadPurchaseOrderDetails() {
+
+        const option =
+            poSelect.options[
+                poSelect.selectedIndex
+            ];
+
+        if (!option || !option.value) {
+
+            supplierName.value = "";
+            productName.value = "";
+            orderedQuantity.value = "";
+            unitPrice.value = "";
+            subtotal.value = "";
+
+            return;
+        }
+
+        supplierName.value =
+            option.dataset.supplier || "";
+
+        productName.value =
+            option.dataset.product || "";
+
+        orderedQuantity.value =
+            option.dataset.quantity || "";
+
+        unitPrice.value =
+            option.dataset.price || "";
+
+        calculateSubtotal();
+    }
+
+
+    poSelect.addEventListener(
+        "change",
+        loadPurchaseOrderDetails
+    );
+
+
+    receivedQuantity.addEventListener(
+        "input",
+        calculateSubtotal
+    );
+
+
+    loadPurchaseOrderDetails();
+
+</script>
+
 </body>
+
 </html>
